@@ -162,10 +162,32 @@ class TestBoard(unittest.TestCase):
                 self.board.pegs.append((2, 0))
                 self.assert_(self.board.game_over())
 
-        def test_print_board(self):
-                self.remove_top_peg()
+        def test_print_empty_board(self):
                 # Escaped backslashes.
                 self.assertEquals(self.board.__str__(), 
+'''
+      /\\
+     / . \\
+    / .  . \\
+   / .  .  . \\
+  / .  .  .  . \\
+ / .  .  .  .  . \\
++-----------------+
+''')
+
+                def test_print_empty_board_of_three_rows(self):
+                        self.board = board.Board(3)
+                        self.assertEquals(self.board.__str__(), 
+'''
+    /\\
+   / . \\
+  / .  . \\
+ / .  .  . \\
++----------+
+''')
+                def test_print_board(self):
+                        self.remove_top_peg()
+                        self.assertEquals(self.board.__str__(), 
 '''
       /\\
      / . \\

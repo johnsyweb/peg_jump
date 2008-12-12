@@ -112,17 +112,20 @@ class Board:
                         self.undo()
 
         def __str__(self):
-                retstring = '\n      /\\\n';
+                spaces = self.rows + 1
+                retstring = '\n'
+                retstring += spaces * ' ' + '/\\\n'
+
                 for row in range(self.rows):
-                        spaces = '%%%ds' % (self.rows + 1 - row)
-                        retstring += spaces % '/'
+                        spaces -= 1
+                        retstring += spaces * ' ' +  '/'
                         for column in range(row + 1):
                                 if self.is_vacant(row, column):
                                         retstring += ' . '
                                 else:
                                         retstring += ' x '
                         retstring += '\\\n'
-                retstring += '+-----------------+\n'
+                retstring += '+' + (self.rows * 3 + 2) * '-' + '+\n'
                 return retstring
 
 def main():
