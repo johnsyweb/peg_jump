@@ -124,3 +124,15 @@ class Board:
                         retstring += '\\\n'
                 retstring += '+-----------------+\n'
                 return retstring
+
+def main():
+        board = Board()
+        board.populate()
+        board.remove_peg(row = 0, column = 0)
+        board.auto_play_move(print_board = True)
+        print board.move_list
+
+
+if __name__ == '__main__':
+        main()
+
