@@ -29,95 +29,95 @@ class TestBoard(unittest.TestCase):
         def setUp(self):
                 self.board = board.Board()
 
-        def remove_top_peg(self):
-                self.board.populate()
-                self.board.remove_peg(row = 0, column = 0)
+        def start_game_with_peg_removed(self, row = 0, column = 0):
+                self.board.reset()
+                self.board.remove_peg(row, column)
 
         def test_blank_board_has_no_pegs(self):
                 self.assertEquals(self.board.peg_count(), 0)
 
-        def test_populated_board_has_15_pegs(self):
-                self.board.populate()
+        def test_resetd_board_has_15_pegs(self):
+                self.board.reset()
                 self.assertEquals(self.board.peg_count(), 15)
 
         def test_removing_peg_reduces_peg_count(self):
-                self.remove_top_peg()
+                self.start_game_with_peg_removed()
                 self.assertEquals(self.board.peg_count(), 14)
 
         def test_only_one_remove_allowed(self):
-                self.remove_top_peg()
+                self.start_game_with_peg_removed()
                 self.board.remove_peg(row = 1, column = 0)
                 self.assertEquals(self.board.peg_count(), 14)
 
         def test_vacant_hole_after_remove_top_peg(self):
-                self.remove_top_peg()
+                self.start_game_with_peg_removed()
                 self.assert_(self.board.is_vacant(0, 0))
 
         def test_valid_move_after_remove_top_peg(self):
-                self.remove_top_peg()
+                self.start_game_with_peg_removed()
                 self.assert_(self.board.is_valid_move(2, 0, 0, 0))
 
         def test_valid_move_across_rows_and_columns(self):
-                self.remove_top_peg()
+                self.start_game_with_peg_removed()
                 self.assert_(self.board.is_valid_move(2, 2, 0, 0))
 
         def test_invalid_move_no_peg_at_source(self):
-                self.remove_top_peg()
+                self.start_game_with_peg_removed()
                 self.assert_(not self.board.is_valid_move(0, 0, 0, 2))
 
         def test_invalid_move_peg_at_target(self):
-                self.remove_top_peg()
+                self.start_game_with_peg_removed()
                 self.assert_(not self.board.is_valid_move(2, 0, 4, 0))
 
         def test_invalid_move_no_middle_peg(self):
-                self.remove_top_peg()
+                self.start_game_with_peg_removed()
                 self.board.pegs.remove((1, 0))
                 self.assert_(not self.board.is_valid_move(2, 0, 0, 0))
 
         def test_invalid_move_target_out_of_bounds(self):
-                self.board.populate()
+                self.board.reset()
                 self.assert_(not self.board.is_valid_move(1, 0, -1, 0))
 
         def test_invalid_move_target_too_far(self):
-                self.remove_top_peg()
+                self.start_game_with_peg_removed()
                 self.assert_(not self.board.is_valid_move(4, 0, 0, 0))
 
         def test_valid_move_fills_target_hole(self):
-                self.remove_top_peg()
+                self.start_game_with_peg_removed()
                 self.board.move(2, 0, 0, 0)
                 self.assert_(not self.board.is_vacant(0, 0))
 
         def test_valid_move_vacates_source_hole(self):
-                self.remove_top_peg()
+                self.start_game_with_peg_removed()
                 self.board.move(2, 0, 0, 0)
                 self.assert_(self.board.is_vacant(2, 0))
 
         def test_valid_move_vacates_middle_hole(self):
-                self.remove_top_peg()
+                self.start_game_with_peg_removed()
                 self.board.move(2, 0, 0, 0)
                 self.assert_(self.board.is_vacant(1, 0))
 
         def test_valid_move_reduces_peg_count(self):
-                self.remove_top_peg()
+                self.start_game_with_peg_removed()
                 self.board.move(2, 0, 0, 0)
                 self.assertEquals(self.board.peg_count(), 13)
 
         def test_invalid_move_fails(self):
-                self.remove_top_peg()
+                self.start_game_with_peg_removed()
                 self.board.move(4, 0, 0, 0)
                 self.assertEquals(self.board.peg_count(), 14)
 
-        def test_remove_peg_populates_move_list(self):
-                self.remove_top_peg()
+        def test_remove_peg_sets_move_list(self):
+                self.start_game_with_peg_removed()
                 self.assertEquals(self.board.move_list, [(0, 0)])
 
-        def test_valid_move_populates_move_list(self):
-                self.remove_top_peg()
+        def test_valid_move_sets_move_list(self):
+                self.start_game_with_peg_removed()
                 self.board.move(2, 2, 0, 0)
                 self.assertEquals(self.board.move_list, [(0, 0), (2, 2, 0, 0)])
 
-        def test_two_valid_moves_populate_move_list(self):
-                self.remove_top_peg()
+        def test_two_valid_moves_set_move_list(self):
+                self.start_game_with_peg_removed()
                 self.board.move(2, 2, 0, 0)
                 self.board.move(3, 1, 1, 1)
                 self.assertEquals(self.board.move_list, [(0, 0), (2, 2, 0, 0), (3, 1, 1, 1)])
@@ -141,11 +141,11 @@ class TestBoard(unittest.TestCase):
                 self.assertEquals(len(self.board.get_valid_moves()), 2)
 
         def test_no_valid_moves_on_full_board(self):
-                self.board.populate()
+                self.board.reset()
                 self.assertEquals(len(self.board.get_valid_moves()), 0)
 
         def test_two_valid_moves_after_removing_top(self):
-                self.remove_top_peg()
+                self.start_game_with_peg_removed()
                 self.assertEquals(len(self.board.get_valid_moves()), 2)
 
         def test_game_not_won(self):
@@ -186,7 +186,7 @@ class TestBoard(unittest.TestCase):
 +----------+
 ''')
                 def test_print_board(self):
-                        self.remove_top_peg()
+                        self.start_game_with_peg_removed()
                         self.assertEquals(self.board.__str__(), 
 '''
       /\\
@@ -199,7 +199,7 @@ class TestBoard(unittest.TestCase):
 ''')
 
         def test_undo_replaces_pegs(self):
-                self.remove_top_peg()
+                self.start_game_with_peg_removed()
                 self.board.move(2, 2, 0, 0)
                 self.board.move(3, 1, 1, 1)
                 peg_count = self.board.peg_count()
@@ -233,12 +233,30 @@ class TestBoard(unittest.TestCase):
                 self.assertEquals(move_list, [(4, 2, 4, 0), (4, 0, 2, 0)])
 
         def test_can_win_full_game(self):
-                self.remove_top_peg()
+                self.start_game_with_peg_removed()
                 self.assertEquals(len(self.board.auto_play_move()), 14)
                 self.assert_(self.board.won())
 
         def test_board_size_calculation(self):
                 self.assertEquals(self.board.size(), 15)
+
+        def test_reset_resets_board(self):
+                self.start_game_with_peg_removed()
+                self.board.reset()
+                self.assertEquals(len(self.board.pegs), 15)
+                self.assertEquals(self.board.move_list, [])
+
+        """
+        def test_can_win_full_game_with_any_peg_removed(self):
+                '''
+                This function takes far too long for a unit test, but is quite fun to watch.
+                '''
+                for row in range(5):
+                        for column in range(row):
+                                self.start_game_with_peg_removed(row, column)
+                                self.assertEquals(len(self.board.auto_play_move(True)), 14)
+                                self.assert_(self.board.won())
+        """
 
 if __name__ == '__main__':
         unittest.main()

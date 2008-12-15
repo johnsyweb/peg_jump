@@ -27,7 +27,9 @@ class Board:
                 self.move_list = []
                 self.rows = number_of_rows
 
-        def populate(self):
+        def reset(self):
+                self.pegs = []
+                self.move_list = []
                 for row in range(self.rows):
                         for column in range(row + 1):
                                 self.pegs.append((row, column))
@@ -130,7 +132,7 @@ class Board:
 
 def main():
         board = Board()
-        board.populate()
+        board.reset()
         board.remove_peg(row = 0, column = 0)
         board.auto_play_move(print_board = True)
         print board.move_list
