@@ -74,3 +74,13 @@ class Test(unittest.TestCase):
                 self.game.remove_first_peg()
                 self.assertTrue(self.game.board.is_vacant(0, 0))
 
+        def test_empty_string_raises_exception(self):
+                self.fake_std_in.lines.append('')
+                self.assertRaises(Exception, self.game.remove_first_peg)
+
+        def test_three_numbers_raise_exception(self):
+                self.fake_std_in.lines.append('1, 2, 3\n')
+                self.assertRaises(Exception, self.game.remove_first_peg)
+
+
+

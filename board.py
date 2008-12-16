@@ -70,7 +70,7 @@ class Board:
                                 self.pegs.remove((row, column))
                                 self.move_list.append((row, column))
                         else:
-                                raise Exception('There is no peg at %d, %d' % row, column)
+                                raise Exception('There is no peg at %d, %d' % (row, column))
                 else:
                         raise Exception('Cannot remove another peg')
 

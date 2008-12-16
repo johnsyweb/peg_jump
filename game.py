@@ -47,9 +47,14 @@ class Game:
 
         def remove_first_peg(self):
                 line = self.input.readline()
-                (row_str, column_str) = line.split(',')
-                (row, column) = (int(row_str), int(column_str))
+                try:
+                        (row_str, column_str) = line.split(',')
+                        (row, column) = (int(row_str), int(column_str))
+                except ValueError:
+                        raise Exception('Sorry, I do not understand "%s".' % line)
+
                 self.board.remove_peg(row, column)
+                
 
 
 def main(print_board = True):
