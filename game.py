@@ -23,11 +23,23 @@ from string import center
 import sys
 
 class Game:
+        '''
+        This is the main game class. It provides an interactive CLI to the
+        peg-jump game.
+        '''
+
         def __init__(self, output = sys.stdout):
                 self.output = output
                 self.board = Board(5)
                 self.board.reset()
-                print >> output, center('''
+                self.width = 80
+
+        def welcome(self):
+                print >> self.output, center('''
                 Welcome to Peg Jump. 
-                ''', 80)
+                ====================
+                ''', self.width)
+
+        def start(self):
+                print >> self.output, self.board.__str__()
 

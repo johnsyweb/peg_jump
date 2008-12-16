@@ -21,23 +21,37 @@
 import game    # unit to test
 import unittest # unit test framework   
 
+class FakeStdOut:
+        def __init__(self):
+                self.reset()
+
+        def write(self, text):
+                self.buffer += text
+
+        def reset(self):
+                self.buffer = ''
+
 class Test(unittest.TestCase):
 
-        class FakeStdOut:
-                def __init__(self):
-                        self.buffer = ''
-
-                def write(self, text):
-                        self.buffer += text
-
         def setUp(self):
-                self.fake_std_out = self.FakeStdOut()
+                self.fake_std_out = FakeStdOut()
                 self.game = game.Game(output = self.fake_std_out)
 
         def test_fresh_game_has_full_board(self):
                 self.assertEquals(self.game.board.peg_count(), 15)
 
         def test_welcome_message_emitted(self):
-                self.assertEquals(self.fake_std_out.buffer, '            \n                Welcome to Peg Jump. \n                             \n')
+                self.game.welcome()
+                self.assertTrue('Welcome to Peg Jump.' in self.fake_std_out.buffer)
 
+        def test_start_game_displays_board(self):
+                self.game.start()
+                self.assertTrue('''
+      /\\
+     / x \\
+    / x  x \\
+   / x  x  x \\
+  / x  x  x  x \\
+ / x  x  x  x  x \\
++-----------------+''' in self.fake_std_out.buffer, 'Unexpected output: ' + self.fake_std_out.buffer)
 
