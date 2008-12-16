@@ -43,8 +43,13 @@ class TestBoard(unittest.TestCase):
 
         def test_only_one_remove_allowed(self):
                 self.start_game_with_peg_removed()
-                self.board.remove_peg(row = 1, column = 0)
+                self.assertRaises(Exception, self.board.remove_peg, row = 2, column = 0)
                 self.assertEquals(self.board.peg_count(), 14)
+
+        def test_only_valid_remove_allowed(self):
+                self.board.reset()
+                self.assertRaises(Exception, self.board.remove_peg, row = 6, column = 0)
+                self.assertEquals(self.board.peg_count(), 15)
 
         def test_vacant_hole_after_remove_top_peg(self):
                 self.start_game_with_peg_removed()

@@ -66,8 +66,13 @@ class Board:
                 the very beginning of a game.
                 '''
                 if self.peg_count() == self.size():
-                        self.pegs.remove((row, column))
-                        self.move_list.append((row, column))
+                        if (row, column) in self.pegs:
+                                self.pegs.remove((row, column))
+                                self.move_list.append((row, column))
+                        else:
+                                raise Exception('There is no peg at %d, %d' % row, column)
+                else:
+                        raise Exception('Cannot remove another peg')
 
         def is_within_bounds(self, row, column):
                 '''
