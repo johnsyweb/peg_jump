@@ -42,4 +42,16 @@ class Game:
 
         def start(self):
                 print >> self.output, self.board.__str__()
+                print >> self.output, 'Please select a peg to remove(row, column):' 
+
+def main(print_board = True):
+        '''
+        This function demonstrates a sample winning game.
+        '''
+        game = Game()
+        game.welcome()
+        game.start()
+
+if __name__ == '__main__':
+        main()
 

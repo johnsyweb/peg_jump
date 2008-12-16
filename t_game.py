@@ -55,3 +55,9 @@ class Test(unittest.TestCase):
  / x  x  x  x  x \\
 +-----------------+''' in self.fake_std_out.buffer, 'Unexpected output: ' + self.fake_std_out.buffer)
 
+        def test_prompt_at_game_start(self):
+                self.game.start()
+                self.assertTrue('Please select a peg to remove(row, column):' in 
+                                self.fake_std_out.buffer, 'Unexpected output: ' + self.fake_std_out.buffer)
+
+
