@@ -28,8 +28,9 @@ class Game:
         peg-jump game.
         '''
 
-        def __init__(self, output = sys.stdout):
+        def __init__(self, input = sys.stdin, output = sys.stdout):
                 self.output = output
+                self.input = input
                 self.board = Board(5)
                 self.board.reset()
                 self.width = 80
@@ -42,7 +43,14 @@ class Game:
 
         def start(self):
                 print >> self.output, self.board.__str__()
-                print >> self.output, 'Please select a peg to remove(row, column):' 
+                print >> self.output, 'Please select a peg to remove(row, column): ', 
+
+        def remove_first_peg(self):
+                line = self.input.readline()
+                (row_str, column_str) = line.split(',')
+                (row, column) = (int(row_str), int(column_str))
+                self.board.remove_peg(row, column)
+
 
 def main(print_board = True):
         '''
@@ -51,6 +59,7 @@ def main(print_board = True):
         game = Game()
         game.welcome()
         game.start()
+        game.remove_first_peg()
 
 if __name__ == '__main__':
         main()

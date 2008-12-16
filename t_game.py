@@ -31,11 +31,19 @@ class FakeStdOut:
         def reset(self):
                 self.buffer = ''
 
+class FakeStdIn:
+        def __init__(self):
+                self.lines = []
+
+        def readline(self):
+                return self.lines.pop()
+
 class Test(unittest.TestCase):
 
         def setUp(self):
                 self.fake_std_out = FakeStdOut()
-                self.game = game.Game(output = self.fake_std_out)
+                self.fake_std_in = FakeStdIn()
+                self.game = game.Game(input = self.fake_std_in, output = self.fake_std_out)
 
         def test_fresh_game_has_full_board(self):
                 self.assertEquals(self.game.board.peg_count(), 15)
@@ -60,4 +68,9 @@ class Test(unittest.TestCase):
                 self.assertTrue('Please select a peg to remove(row, column):' in 
                                 self.fake_std_out.buffer, 'Unexpected output: ' + self.fake_std_out.buffer)
 
+        def test_can_remove_first_pin(self):
+                self.game.start()
+                self.fake_std_in.lines.append('0, 0\n')
+                self.game.remove_first_peg()
+                self.assertTrue(self.game.board.is_vacant(0, 0))
 
