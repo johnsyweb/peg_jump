@@ -128,11 +128,10 @@ class Board:
 
         def undo(self):
                 ''' Undoes the last move '''
-                (source_row, source_column, target_row, target_column) = self.move_list[-1]
+                (source_row, source_column, target_row, target_column) = self.move_list.pop()
                 self.pegs.remove((target_row, target_column))
                 self.pegs.append((source_row, source_column))
                 self.pegs.append(self.middle_peg(source_row, source_column, target_row, target_column))
-                self.move_list = self.move_list[:-1]
                         
         def get_valid_moves(self):
                 ''' Returns a list of all moves that can be made '''
