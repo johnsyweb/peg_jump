@@ -45,18 +45,18 @@ class Game:
                 print >> self.output, self.board.__str__()
                 print >> self.output, 'Please select a peg to remove(row, column): ', 
 
-        def remove_first_peg(self):
+        def get_peg_position(self):
                 line = self.input.readline()
                 try:
                         (row_str, column_str) = line.split(',')
-                        (row, column) = (int(row_str), int(column_str))
                 except ValueError:
                         raise Exception('Sorry, I do not understand "%s".' % line)
-
+                return int(row_str), int(column_str)
+                
+        def remove_first_peg(self):
+                row, column = self.get_peg_position()
                 self.board.remove_peg(row, column)
                 
-
-
 def main(print_board = True):
         '''
         This function demonstrates a sample winning game.

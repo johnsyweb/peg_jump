@@ -36,7 +36,7 @@ class FakeStdIn:
                 self.lines = []
 
         def readline(self):
-                return self.lines.pop()
+                return self.lines.pop(0)
 
 class Test(unittest.TestCase):
 
@@ -68,7 +68,11 @@ class Test(unittest.TestCase):
                 self.assertTrue('Please select a peg to remove(row, column):' in 
                                 self.fake_std_out.buffer, 'Unexpected output: ' + self.fake_std_out.buffer)
 
-        def test_can_remove_first_pin(self):
+        def test_get_peg_position(self):
+                self.fake_std_in.lines.append('0, 0\n')
+                row, column = self.game.get_peg_position()
+
+        def test_can_remove_first_peg(self):
                 self.game.start()
                 self.fake_std_in.lines.append('0, 0\n')
                 self.game.remove_first_peg()
@@ -81,6 +85,14 @@ class Test(unittest.TestCase):
         def test_three_numbers_raise_exception(self):
                 self.fake_std_in.lines.append('1, 2, 3\n')
                 self.assertRaises(Exception, self.game.remove_first_peg)
+
+        def test_a_valid_peg_can_be_entered_after_invalid(self):
+                self.game.start()
+                self.fake_std_in.lines.append('-1, -1\n')
+                self.fake_std_in.lines.append('0, 0\n')
+                self.game.remove_first_peg()
+                self.assertTrue(self.game.board.is_vacant(0, 0))
+
 
 
 
