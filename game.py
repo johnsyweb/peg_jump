@@ -49,13 +49,32 @@ class Game:
                 line = self.input.readline()
                 try:
                         (row_str, column_str) = line.split(',')
+                        row, column = int(row_str), int(column_str)
+                        if self.board.is_within_bounds(row, column):
+                                return row, column
+                        else:
+                                raise Exception('Sorry, "' + line.strip() + '" is outside my boundaries.')
                 except ValueError:
-                        raise Exception('Sorry, I do not understand "%s".' % line)
-                return int(row_str), int(column_str)
-                
+                        raise Exception('Sorry, I do not understand "' + line.strip() + '".')
+
+        def get_populated_peg_position(self):
+                try:
+                        row, column = self.get_peg_position()
+                        if self.board.is_vacant(row, column):
+                                raise Exception('Sorry, there is no peg at "' + row + ', ' + column + '".')
+                        else:
+                                return row, column
+                except Exception, e:
+                        print >> self.output, e
+                        
         def remove_first_peg(self):
-                row, column = self.get_peg_position()
-                self.board.remove_peg(row, column)
+                while self.board.size() == self.board.peg_count():
+                        try:
+                                row, column = self.get_populated_peg_position()
+                                self.board.remove_peg(row, column)
+                        except TypeError:
+                                self.start()
+
                 
 def main(print_board = True):
         '''

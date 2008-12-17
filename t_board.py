@@ -55,6 +55,14 @@ class TestBoard(unittest.TestCase):
                 self.start_game_with_peg_removed()
                 self.assert_(self.board.is_vacant(0, 0))
 
+        def test_is_vacant_on_filled_hole(self):
+                self.start_game_with_peg_removed()
+                self.assertFalse(self.board.is_vacant(1, 1))
+
+        def test_is_vacant_on_invalid_hole(self):
+                self.start_game_with_peg_removed()
+                self.assertFalse(self.board.is_vacant(0, -1))
+
         def test_valid_move_after_remove_top_peg(self):
                 self.start_game_with_peg_removed()
                 self.assert_(self.board.is_valid_move(2, 0, 0, 0))

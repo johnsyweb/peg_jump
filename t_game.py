@@ -38,7 +38,7 @@ class FakeStdIn:
         def readline(self):
                 return self.lines.pop(0)
 
-class Test(unittest.TestCase):
+class TestGame(unittest.TestCase):
 
         def setUp(self):
                 self.fake_std_out = FakeStdOut()
@@ -80,11 +80,11 @@ class Test(unittest.TestCase):
 
         def test_empty_string_raises_exception(self):
                 self.fake_std_in.lines.append('')
-                self.assertRaises(Exception, self.game.remove_first_peg)
+                self.assertRaises(Exception, self.game.get_peg_position)
 
         def test_three_numbers_raise_exception(self):
                 self.fake_std_in.lines.append('1, 2, 3\n')
-                self.assertRaises(Exception, self.game.remove_first_peg)
+                self.assertRaises(Exception, self.game.get_peg_position)
 
         def test_a_valid_peg_can_be_entered_after_invalid(self):
                 self.game.start()
@@ -93,6 +93,5 @@ class Test(unittest.TestCase):
                 self.game.remove_first_peg()
                 self.assertTrue(self.game.board.is_vacant(0, 0))
 
-
-
-
+if __name__ == '__main__':
+        unittest.main()
