@@ -67,6 +67,16 @@ class Game:
                 except Exception, e:
                         print >> self.output, e
                         
+        def get_unpopulated_peg_position(self):
+                try:
+                        row, column = self.get_peg_position()
+                        if not self.board.is_vacant(row, column):
+                                raise Exception('Sorry, there is a peg at "' + row + ', ' + column + '".')
+                        else:
+                                return row, column
+                except Exception, e:
+                        print >> self.output, e
+                        
         def remove_first_peg(self):
                 while self.board.size() == self.board.peg_count():
                         try:

@@ -93,5 +93,24 @@ class TestGame(unittest.TestCase):
                 self.game.remove_first_peg()
                 self.assertTrue(self.game.board.is_vacant(0, 0))
 
+        def test_get_source_peg(self):
+                self.game.start()
+                self.fake_std_in.lines.append('0, 0\n')
+                self.fake_std_in.lines.append('2, 2\n')
+                self.game.remove_first_peg()
+                row, column = self.game.get_populated_peg_position()
+                self.assertEquals(2, row)
+                self.assertEquals(2, column)
+
+        def test_get_target_hole(self):
+                self.game.start()
+                self.fake_std_in.lines.append('0, 0\n')
+                self.fake_std_in.lines.append('0, 0\n')
+                self.game.remove_first_peg()
+                row, column = self.game.get_unpopulated_peg_position()
+                self.assertEquals(0, row)
+                self.assertEquals(0, column)
+
+
 if __name__ == '__main__':
         unittest.main()
