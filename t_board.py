@@ -33,7 +33,7 @@ class TestBoard(unittest.TestCase):
         def test_blank_board_has_no_pegs(self):
                 self.assertEquals(self.board.peg_count(), 0)
 
-        def test_resetd_board_has_15_pegs(self):
+        def test_reset_board_has_15_pegs(self):
                 self.board.reset()
                 self.assertEquals(self.board.peg_count(), 15)
 
