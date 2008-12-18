@@ -34,6 +34,7 @@ class Game:
                 self.board = Board(5)
                 self.board.reset()
                 self.width = 80
+                self.i = 0
 
         def welcome(self):
                 print >> self.output, center('''
@@ -59,9 +60,10 @@ class Game:
 
         def get_peg_position(self, populated):
 
+                self.i += 1
+
                 # amount = populated ? 'no' : 'a'...
                 amount = populated and 'no' or 'a'
-
                 try:
                         row, column = self.get_valid_peg_position()
                         if self.board.is_vacant(row, column) == populated:
@@ -86,6 +88,15 @@ class Game:
                                 self.start()
                 print >> self.output, self.board
 
+        def make_move(self):
+                print >> self.output, 'Please select a peg to move (row, column): ',
+                source_row, source_column = self.get_populated_peg_position()
+                print >> self.output, 'Please select a hole to move to (row, column): ',
+                target_row, target_column = self.get_unpopulated_peg_position()
+                self.board.move(source_row, source_column, target_row, target_column)
+                print >> self.output, self.board
+
+
                 
 def main(print_board = True):
         '''
@@ -95,6 +106,7 @@ def main(print_board = True):
         game.welcome()
         game.start()
         game.remove_first_peg()
+        game.make_move()
 
 if __name__ == '__main__':
         main()

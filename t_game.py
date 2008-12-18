@@ -125,6 +125,36 @@ class TestGame(unittest.TestCase):
                 self.assertEquals(0, row)
                 self.assertEquals(0, column)
 
+        def make_move_helper(self):
+                self.start_game_with_top_peg_removed()
+                self.fake_std_in.lines.append('2, 2\n')
+                self.fake_std_in.lines.append('0, 0\n')
+                self.start_game_with_top_peg_removed()
+                self.fake_std_out.reset()
+                self.game.make_move()
+
+        def test_make_move_asks_for_source(self):
+                self.make_move_helper()
+                self.assertTrue('Please select a peg to move (row, column):' in self.fake_std_out.buffer, 'Unexpected output: ' + self.fake_std_out.buffer)
+
+        def test_make_move_asks_for_target(self):
+                self.make_move_helper()
+                self.assertTrue('Please select a hole to move to (row, column):' in self.fake_std_out.buffer, 'Unexpected output: ' + self.fake_std_out.buffer)
+
+        def test_make_move_draws_board(self):
+                self.make_move_helper()
+                self.assertTrue('''
+      /\\
+     / x \\
+    / x  . \\
+   / x  x  . \\
+  / x  x  x  x \\
+ / x  x  x  x  x \\
++-----------------+''' in self.fake_std_out.buffer, 'Unexpected output: ' + self.fake_std_out.buffer)
+
+        def test_make_move_populates_move_list(self):
+                self.make_move_helper()
+                self.assertEquals(self.game.board.move_list[-1], (2, 2, 0, 0))
 
 
 if __name__ == '__main__':
