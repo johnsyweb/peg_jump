@@ -42,7 +42,7 @@ class Game:
                 ''', self.width)
 
         def start(self):
-                print >> self.output, self.board.__str__()
+                print >> self.output, self.board
                 print >> self.output, 'Please select a peg to remove(row, column): ', 
 
         def get_valid_peg_position(self):
@@ -84,6 +84,7 @@ class Game:
                                 self.board.remove_peg(row, column)
                         except TypeError:
                                 self.start()
+                print >> self.output, self.board
 
                 
 def main(print_board = True):

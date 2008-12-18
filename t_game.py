@@ -99,6 +99,18 @@ class TestGame(unittest.TestCase):
                 self.game.remove_first_peg()
                 self.assertTrue(self.game.board.is_vacant(0, 0))
 
+        def test_peg_removal_draws_board(self):
+                self.start_game_with_top_peg_removed()
+                self.assertTrue('''
+      /\\
+     / . \\
+    / x  x \\
+   / x  x  x \\
+  / x  x  x  x \\
+ / x  x  x  x  x \\
++-----------------+''' in self.fake_std_out.buffer, 'Unexpected output: ' + self.fake_std_out.buffer)
+
+
         def test_get_source_peg(self):
                 self.start_game_with_top_peg_removed()
                 self.fake_std_in.lines.append('2, 2\n')
@@ -112,6 +124,7 @@ class TestGame(unittest.TestCase):
                 row, column = self.game.get_unpopulated_peg_position()
                 self.assertEquals(0, row)
                 self.assertEquals(0, column)
+
 
 
 if __name__ == '__main__':
