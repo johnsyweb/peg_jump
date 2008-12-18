@@ -45,7 +45,7 @@ class Game:
                 print >> self.output, self.board.__str__()
                 print >> self.output, 'Please select a peg to remove(row, column): ', 
 
-        def get_peg_position(self):
+        def get_valid_peg_position(self):
                 line = self.input.readline()
                 try:
                         (row_str, column_str) = line.split(',')
@@ -57,25 +57,25 @@ class Game:
                 except ValueError:
                         raise Exception('Sorry, I do not understand "' + line.strip() + '".')
 
-        def get_populated_peg_position(self):
+        def get_peg_position(self, populated):
+
+                # amount = populated ? 'no' : 'a'...
+                amount = populated and 'no' or 'a'
+
                 try:
-                        row, column = self.get_peg_position()
-                        if self.board.is_vacant(row, column):
-                                raise Exception('Sorry, there is no peg at "' + row + ', ' + column + '".')
+                        row, column = self.get_valid_peg_position()
+                        if self.board.is_vacant(row, column) == populated:
+                                raise Exception('Sorry, there is ' + amount + ' peg at "' + row + ', ' + column + '".')
                         else:
                                 return row, column
                 except Exception, e:
                         print >> self.output, e
+
+        def get_populated_peg_position(self):
+                return self.get_peg_position(True)
                         
         def get_unpopulated_peg_position(self):
-                try:
-                        row, column = self.get_peg_position()
-                        if not self.board.is_vacant(row, column):
-                                raise Exception('Sorry, there is a peg at "' + row + ', ' + column + '".')
-                        else:
-                                return row, column
-                except Exception, e:
-                        print >> self.output, e
+                return self.get_peg_position(False)
                         
         def remove_first_peg(self):
                 while self.board.size() == self.board.peg_count():

@@ -45,6 +45,14 @@ class TestGame(unittest.TestCase):
                 self.fake_std_in = FakeStdIn()
                 self.game = game.Game(input = self.fake_std_in, output = self.fake_std_out)
 
+        def start_game_with_top_peg_removed(self):
+                '''
+                Helper function. Starts the game and removes the top peg.
+                '''
+                self.game.start()
+                self.fake_std_in.lines.append('0, 0\n')
+                self.game.remove_first_peg()
+
         def test_fresh_game_has_full_board(self):
                 self.assertEquals(self.game.board.peg_count(), 15)
 
@@ -68,23 +76,21 @@ class TestGame(unittest.TestCase):
                 self.assertTrue('Please select a peg to remove(row, column):' in 
                                 self.fake_std_out.buffer, 'Unexpected output: ' + self.fake_std_out.buffer)
 
-        def test_get_peg_position(self):
+        def test_get_valid_peg_position(self):
                 self.fake_std_in.lines.append('0, 0\n')
-                row, column = self.game.get_peg_position()
+                row, column = self.game.get_valid_peg_position()
 
         def test_can_remove_first_peg(self):
-                self.game.start()
-                self.fake_std_in.lines.append('0, 0\n')
-                self.game.remove_first_peg()
+                self.start_game_with_top_peg_removed()
                 self.assertTrue(self.game.board.is_vacant(0, 0))
 
         def test_empty_string_raises_exception(self):
                 self.fake_std_in.lines.append('')
-                self.assertRaises(Exception, self.game.get_peg_position)
+                self.assertRaises(Exception, self.game.get_valid_peg_position)
 
         def test_three_numbers_raise_exception(self):
                 self.fake_std_in.lines.append('1, 2, 3\n')
-                self.assertRaises(Exception, self.game.get_peg_position)
+                self.assertRaises(Exception, self.game.get_valid_peg_position)
 
         def test_a_valid_peg_can_be_entered_after_invalid(self):
                 self.game.start()
@@ -94,19 +100,15 @@ class TestGame(unittest.TestCase):
                 self.assertTrue(self.game.board.is_vacant(0, 0))
 
         def test_get_source_peg(self):
-                self.game.start()
-                self.fake_std_in.lines.append('0, 0\n')
+                self.start_game_with_top_peg_removed()
                 self.fake_std_in.lines.append('2, 2\n')
-                self.game.remove_first_peg()
                 row, column = self.game.get_populated_peg_position()
                 self.assertEquals(2, row)
                 self.assertEquals(2, column)
 
         def test_get_target_hole(self):
-                self.game.start()
+                self.start_game_with_top_peg_removed()
                 self.fake_std_in.lines.append('0, 0\n')
-                self.fake_std_in.lines.append('0, 0\n')
-                self.game.remove_first_peg()
                 row, column = self.game.get_unpopulated_peg_position()
                 self.assertEquals(0, row)
                 self.assertEquals(0, column)
