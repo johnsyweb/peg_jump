@@ -58,13 +58,11 @@ class Game:
                 except ValueError:
                         raise Exception('Sorry, I do not understand "' + line.strip() + '".')
 
-        def get_peg_position(self, populated):
-
-                self.i += 1
-
+        def get_peg_position(self, populated, prompt = None):
                 # amount = populated ? 'no' : 'a'...
                 amount = populated and 'no' or 'a'
                 try:
+                        print >> self.output, prompt,
                         row, column = self.get_valid_peg_position()
                         if self.board.is_vacant(row, column) == populated:
                                 raise Exception('Sorry, there is ' + amount + ' peg at "' + row + ', ' + column + '".')
@@ -73,11 +71,11 @@ class Game:
                 except Exception, e:
                         print >> self.output, e
 
-        def get_populated_peg_position(self):
-                return self.get_peg_position(True)
+        def get_populated_peg_position(self, default_prompt = 'Please select a peg to move (row, column): '):
+                return self.get_peg_position(populated = True, prompt = default_prompt)
                         
         def get_unpopulated_peg_position(self):
-                return self.get_peg_position(False)
+                return self.get_peg_position(populated = False, prompt = 'Please select a hole to move to (row, column): ')
                         
         def remove_first_peg(self):
                 while self.board.size() == self.board.peg_count():
@@ -89,9 +87,7 @@ class Game:
                 print >> self.output, self.board
 
         def make_move(self):
-                print >> self.output, 'Please select a peg to move (row, column): ',
                 source_row, source_column = self.get_populated_peg_position()
-                print >> self.output, 'Please select a hole to move to (row, column): ',
                 target_row, target_column = self.get_unpopulated_peg_position()
                 self.board.move(source_row, source_column, target_row, target_column)
                 print >> self.output, self.board
