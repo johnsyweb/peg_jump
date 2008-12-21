@@ -76,9 +76,8 @@ class Game:
                         
         def remove_first_peg(self):
                 while self.board.size() == self.board.peg_count():
-                        print >> self.output, 'Please select a peg to remove(row, column): ', 
                         try:
-                                row, column = self.get_populated_peg_position()
+                                row, column = self.get_populated_peg_position(default_prompt = 'Please select a peg to remove(row, column): ')
                                 self.board.remove_peg(row, column)
                         except TypeError:
                                 print >> self.output, 'Please try again...'
