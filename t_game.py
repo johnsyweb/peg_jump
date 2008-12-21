@@ -49,7 +49,6 @@ class TestGame(unittest.TestCase):
                 '''
                 Helper function. Starts the game and removes the top peg.
                 '''
-                self.game.start()
                 self.fake_std_in.lines.append('0, 0\n')
                 self.game.remove_first_peg()
 
@@ -60,8 +59,8 @@ class TestGame(unittest.TestCase):
                 self.game.welcome()
                 self.assertTrue('Welcome to Peg Jump.' in self.fake_std_out.buffer)
 
-        def test_start_game_displays_board(self):
-                self.game.start()
+        def test_welcome_displays_board(self):
+                self.game.welcome()
                 self.assertTrue('''
       /\\
      / x \\
@@ -72,7 +71,7 @@ class TestGame(unittest.TestCase):
 +-----------------+''' in self.fake_std_out.buffer, 'Unexpected output: ' + self.fake_std_out.buffer)
 
         def test_prompt_at_game_start(self):
-                self.game.start()
+                self.start_game_with_top_peg_removed()
                 self.assertTrue('Please select a peg to remove(row, column):' in 
                                 self.fake_std_out.buffer, 'Unexpected output: ' + self.fake_std_out.buffer)
 
@@ -93,7 +92,6 @@ class TestGame(unittest.TestCase):
                 self.assertRaises(Exception, self.game.get_valid_peg_position)
 
         def test_a_valid_peg_can_be_entered_after_invalid(self):
-                self.game.start()
                 self.fake_std_in.lines.append('-1, -1\n')
                 self.fake_std_in.lines.append('0, 0\n')
                 self.game.remove_first_peg()
