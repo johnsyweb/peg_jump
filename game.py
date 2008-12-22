@@ -22,7 +22,10 @@ from board import Board
 from string import center
 import sys
 
-class Game:
+class QuitException(Exception):
+        pass
+
+class Game(object):
         '''
         This is the main game class. It provides an interactive CLI to the
         peg-jump game.
@@ -45,6 +48,8 @@ class Game:
 
         def get_valid_peg_position(self):
                 line = self.input.readline()
+                if 'quit' in line:
+                        raise QuitException
                 try:
                         (row_str, column_str) = line.split(',')
                         row, column = int(row_str), int(column_str)
@@ -65,6 +70,8 @@ class Game:
                                 raise Exception('Sorry, there is ' + amount + ' peg at "' + row + ', ' + column + '".')
                         else:
                                 return row, column
+                except QuitException, q:
+                        raise q
                 except Exception, e:
                         print >> self.output, e
 
@@ -79,6 +86,9 @@ class Game:
                         try:
                                 row, column = self.get_populated_peg_position(default_prompt = 'Please select a peg to remove(row, column): ')
                                 self.board.remove_peg(row, column)
+                        except QuitException, q:
+                                print >> self.output, 'Goodbye.'
+                                return
                         except TypeError:
                                 print >> self.output, 'Please try again...'
                 print >> self.output, self.board
