@@ -95,9 +95,15 @@ class Game(object):
                 print >> self.output, self.board
 
         def make_move(self):
-                source_row, source_column = self.get_populated_peg_position()
-                target_row, target_column = self.get_unpopulated_peg_position()
-                self.board.move(source_row, source_column, target_row, target_column)
+                try:
+                        source_row, source_column = self.get_populated_peg_position()
+                        target_row, target_column = self.get_unpopulated_peg_position()
+                        self.board.move(source_row, source_column, target_row, target_column)
+                except QuitException, q:
+                        print >> self.output, 'Goodbye.'
+                        return
+                except TypeError:
+                        print >> self.output, 'Please try again...'
                 print >> self.output, self.board
 
 

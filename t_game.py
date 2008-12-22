@@ -153,9 +153,15 @@ class TestGame(unittest.TestCase):
                 self.make_move_helper()
                 self.assertEquals(self.game.board.move_list[-1], (2, 2, 0, 0))
 
-        def test_quit_command_exits_game(self):
+        def test_quit_command_exits_gamei_on_first_go(self):
                 self.fake_std_in.lines.append('quit\n')
                 self.game.remove_first_peg()
+
+        def test_quit_command_exits_game_from_move(self):
+                self.make_move_helper()
+                self.fake_std_in.lines.append('quit\n')
+                self.game.make_move()
+                
 
 if __name__ == '__main__':
         unittest.main()
