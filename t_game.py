@@ -50,7 +50,7 @@ class TestGame(unittest.TestCase):
                 Helper function. Starts the game and removes the top peg.
                 '''
                 self.fake_std_in.lines.append('0, 0\n')
-                self.game.remove_first_peg()
+                self.game.make_move()
 
         def test_fresh_game_has_full_board(self):
                 self.assertEquals(self.game.board.peg_count(), 15)
@@ -79,7 +79,7 @@ class TestGame(unittest.TestCase):
                 self.fake_std_in.lines.append('0, 0\n')
                 row, column = self.game.get_valid_peg_position()
 
-        def test_can_remove_first_peg(self):
+        def test_can_make_move(self):
                 self.start_game_with_top_peg_removed()
                 self.assertTrue(self.game.board.is_vacant(0, 0))
 
@@ -94,7 +94,7 @@ class TestGame(unittest.TestCase):
         def test_a_valid_peg_can_be_entered_after_invalid(self):
                 self.fake_std_in.lines.append('-1, -1\n')
                 self.fake_std_in.lines.append('0, 0\n')
-                self.game.remove_first_peg()
+                self.game.make_move()
                 self.assertTrue(self.game.board.is_vacant(0, 0))
 
         def test_peg_removal_draws_board(self):
@@ -153,9 +153,9 @@ class TestGame(unittest.TestCase):
                 self.make_move_helper()
                 self.assertEquals(self.game.board.move_list[-1], (2, 2, 0, 0))
 
-        def test_quit_command_exits_gamei_on_first_go(self):
+        def test_quit_command_exits_game_on_first_go(self):
                 self.fake_std_in.lines.append('quit\n')
-                self.game.remove_first_peg()
+                self.game.make_move()
 
         def test_quit_command_exits_game_from_move(self):
                 self.make_move_helper()

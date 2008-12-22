@@ -81,42 +81,39 @@ class Game(object):
                         
         def get_unpopulated_peg_position(self):
                 return self.get_peg_position(populated = False, prompt = 'Please select a hole to move to (row, column): ')
-                        
-        def remove_first_peg(self):
-                while self.board.size() == self.board.peg_count():
-                        try:
-                                row, column = self.get_populated_peg_position(default_prompt = 'Please select a peg to remove(row, column): ')
-                                self.board.remove_peg(row, column)
-                        except QuitException, q:
-                                print >> self.output, 'Goodbye.'
-                                return
-                        except TypeError:
-                                print >> self.output, 'Please try again...'
-                print >> self.output, self.board
 
         def make_move(self):
                 target_count = self.board.peg_count() - 1
                 while self.board.peg_count() is not target_count:
                         try:
-                                source_row, source_column = self.get_populated_peg_position()
-                                target_row, target_column = self.get_unpopulated_peg_position()
-                                self.board.move(source_row, source_column, target_row, target_column)
+                                if self.board.size() == self.board.peg_count():
+                                        self.do_first_move()
+                                else:
+                                        self.do_main_move()
                         except QuitException, q:
                                 print >> self.output, 'Goodbye.'
                                 return
                         except TypeError:
                                 print >> self.output, 'Please try again...'
                 print >> self.output, self.board
+                        
+        def do_first_move(self):
+                row, column = self.get_populated_peg_position(default_prompt = 'Please select a peg to remove(row, column): ')
+                self.board.remove_peg(row, column)
 
+        def do_main_move(self):
+                source_row, source_column = self.get_populated_peg_position()
+                target_row, target_column = self.get_unpopulated_peg_position()
+                self.board.move(source_row, source_column, target_row, target_column)
 
-                
 def main(print_board = True):
         '''
-        This function demonstrates a sample winning game.
+        Play the game,
+        (Play the game),
         '''
         game = Game()
         game.welcome()
-        game.remove_first_peg()
+        game.make_move()
         game.make_move()
 
 if __name__ == '__main__':
