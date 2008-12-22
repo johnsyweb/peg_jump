@@ -127,7 +127,6 @@ class TestGame(unittest.TestCase):
                 self.start_game_with_top_peg_removed()
                 self.fake_std_in.lines.append('2, 2\n')
                 self.fake_std_in.lines.append('0, 0\n')
-                self.start_game_with_top_peg_removed()
                 self.fake_std_out.reset()
                 self.game.make_move()
 
