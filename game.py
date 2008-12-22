@@ -22,6 +22,9 @@ from board import Board
 from string import center
 import sys
 
+class InputException(Exception):
+        pass
+
 class QuitException(Exception):
         pass
 
@@ -56,9 +59,9 @@ class Game(object):
                         if self.board.is_within_bounds(row, column):
                                 return row, column
                         else:
-                                raise Exception('Sorry, "' + line.strip() + '" is outside my boundaries.')
+                                raise InputException('Sorry, "' + line.strip() + '" is outside my boundaries.')
                 except ValueError:
-                        raise Exception('Sorry, I do not understand "' + line.strip() + '".')
+                        raise InputException('Sorry, I do not understand "' + line.strip() + '".')
 
         def get_peg_position(self, populated, prompt = None):
                 # amount = populated ? 'no' : 'a'...
@@ -70,9 +73,7 @@ class Game(object):
                                 raise Exception('Sorry, there is ' + amount + ' peg at "' + row + ', ' + column + '".')
                         else:
                                 return row, column
-                except QuitException, q:
-                        raise q
-                except Exception, e:
+                except InputException, e:
                         print >> self.output, e
 
         def get_populated_peg_position(self, default_prompt = 'Please select a peg to move (row, column): '):
