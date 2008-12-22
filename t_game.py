@@ -161,7 +161,15 @@ class TestGame(unittest.TestCase):
                 self.make_move_helper()
                 self.fake_std_in.lines.append('quit\n')
                 self.game.make_move()
-                
+
+        def test_invalid_input_rejected_and_move_made(self):
+                self.make_move_helper()
+                self.fake_std_in.lines.append('8, 8\n')
+                self.fake_std_in.lines.append('2, 0\n')
+                self.fake_std_in.lines.append('2, 2\n')
+                self.game.make_move()
+                self.assertTrue(self.game.board.is_vacant(2, 0))
+                self.assertFalse(self.game.board.is_vacant(2, 2))
 
 if __name__ == '__main__':
         unittest.main()
