@@ -180,5 +180,15 @@ class TestGame(unittest.TestCase):
                 self.game.play()
                 self.assertTrue('Game over.' in self.fake_std_out.buffer) 
 
+        def test_loss_is_reported_as_such(self):
+                self.game.board.pegs = [(0, 0), (4, 4)]
+                self.game.play()
+                self.assertTrue('You have lost.' in self.fake_std_out.buffer) 
+
+        def test_win_is_reported_as_such(self):
+                self.game.board.pegs = [(0, 0)]
+                self.game.play()
+                self.assertTrue('You have won!' in self.fake_std_out.buffer) 
+
 if __name__ == '__main__':
         unittest.main()

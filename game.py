@@ -111,6 +111,10 @@ class Game(object):
 
         def play(self):
                 print >> self.output, 'Game over.'
+                if self.board.won() is not True:
+                        print >> self.output, 'You have lost.'
+                else:
+                        print >> self.output, 'You have won!'
 
 def main(print_board = True):
         '''
