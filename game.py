@@ -106,6 +106,12 @@ class Game(object):
                 target_row, target_column = self.get_unpopulated_peg_position()
                 self.board.move(source_row, source_column, target_row, target_column)
 
+        def over(self):
+                return self.board.game_over()
+
+        def play(self):
+                print >> self.output, 'Game over.'
+
 def main(print_board = True):
         '''
         Play the game,

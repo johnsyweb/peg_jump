@@ -171,5 +171,14 @@ class TestGame(unittest.TestCase):
                 self.assertTrue(self.game.board.is_vacant(2, 0))
                 self.assertFalse(self.game.board.is_vacant(2, 2))
 
+        def test_game_over(self):
+                self.game.board.pegs = [(0, 0)]
+                self.assertTrue(self.game.over())
+
+        def test_game_over_is_reported_as_such(self):
+                self.game.board.pegs = [(0, 0)]
+                self.game.play()
+                self.assertTrue('Game over.' in self.fake_std_out.buffer) 
+
 if __name__ == '__main__':
         unittest.main()
