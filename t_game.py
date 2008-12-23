@@ -41,6 +41,10 @@ class FakeStdIn:
         def __init__(self):
                 self.lines = []
 
+        def prime(self, lines_to_append):
+                for line in lines_to_append:
+                        self.lines.append(line)
+
         def readline(self):
                 return self.lines.pop(0)
 
@@ -134,8 +138,7 @@ class TestGame(unittest.TestCase):
 
         def make_move_helper(self):
                 self.start_game_with_top_peg_removed()
-                self.fake_std_in.lines.append('2, 2\n')
-                self.fake_std_in.lines.append('0, 0\n')
+                self.fake_std_in.prime([('2, 2\n'), ('0, 0\n')])
                 self.fake_std_out.reset()
                 self.game.make_move()
 
@@ -173,9 +176,7 @@ class TestGame(unittest.TestCase):
 
         def test_invalid_input_rejected_and_move_made(self):
                 self.make_move_helper()
-                self.fake_std_in.lines.append('8, 8\n')
-                self.fake_std_in.lines.append('2, 0\n')
-                self.fake_std_in.lines.append('2, 2\n')
+                self.fake_std_in.prime([('8, 8\n'), ('2, 0\n'), ('2, 2\n')])
                 self.game.make_move()
                 self.assertTrue(self.game.board.is_vacant(2, 0))
                 self.assertFalse(self.game.board.is_vacant(2, 2))
@@ -200,33 +201,7 @@ class TestGame(unittest.TestCase):
                 self.assertTrue('You have won!' in self.fake_std_out.buffer) 
 
         def test_sample_full_game(self):
-                self.fake_std_in.lines.append('0, 0\n')
-                self.fake_std_in.lines.append('2, 0\n')
-                self.fake_std_in.lines.append('0, 0\n')
-                self.fake_std_in.lines.append('2, 2\n')
-                self.fake_std_in.lines.append('2, 0\n')
-                self.fake_std_in.lines.append('3, 0\n')
-                self.fake_std_in.lines.append('1, 0\n')
-                self.fake_std_in.lines.append('4, 1\n')
-                self.fake_std_in.lines.append('2, 1\n')
-                self.fake_std_in.lines.append('4, 4\n')
-                self.fake_std_in.lines.append('2, 2\n')
-                self.fake_std_in.lines.append('4, 3\n')
-                self.fake_std_in.lines.append('4, 1\n')
-                self.fake_std_in.lines.append('4, 0\n')
-                self.fake_std_in.lines.append('4, 2\n')
-                self.fake_std_in.lines.append('0, 0\n')
-                self.fake_std_in.lines.append('2, 0\n')
-                self.fake_std_in.lines.append('1, 1\n')
-                self.fake_std_in.lines.append('3, 3\n')
-                self.fake_std_in.lines.append('4, 2\n')
-                self.fake_std_in.lines.append('2, 2\n')
-                self.fake_std_in.lines.append('3, 3\n')
-                self.fake_std_in.lines.append('1, 1\n')
-                self.fake_std_in.lines.append('2, 0\n')
-                self.fake_std_in.lines.append('2, 2\n')
-                self.fake_std_in.lines.append('1, 1\n')
-                self.fake_std_in.lines.append('3, 3\n')
+                self.fake_std_in.prime([('0, 0\n'), ('2, 0\n'), ('0, 0\n'), ('2, 2\n'), ('2, 0\n'), ('3, 0\n'), ('1, 0\n'), ('4, 1\n'), ('2, 1\n'), ('4, 4\n'), ('2, 2\n'), ('4, 3\n'), ('4, 1\n'), ('4, 0\n'), ('4, 2\n'), ('0, 0\n'), ('2, 0\n'), ('1, 1\n'), ('3, 3\n'), ('4, 2\n'), ('2, 2\n'), ('3, 3\n'), ('1, 1\n'), ('2, 0\n'), ('2, 2\n'), ('1, 1\n'), ('3, 3\n')])
                 self.game.play()
                 self.assertTrue('You have won!' in self.fake_std_out.buffer) 
 
