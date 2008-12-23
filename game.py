@@ -43,6 +43,10 @@ class Game(object):
                 self.i = 0
 
         def welcome(self):
+                '''
+                Just a welcome message. Nothing special.
+                '''
+
                 print >> self.output, center('''
                 Welcome to Peg Jump. 
                 ====================
@@ -50,6 +54,11 @@ class Game(object):
                 print >> self.output, self.board
 
         def get_valid_peg_position(self):
+                '''
+                Gets a valid peg position. Raises an InputException if it
+                doesn't understand or a QuitException if 'quit' is entered.
+                '''
+
                 line = self.input.readline()
                 if 'quit' in line:
                         raise QuitException
@@ -64,7 +73,10 @@ class Game(object):
                         raise InputException('Sorry, I do not understand "' + line.strip() + '".')
 
         def get_peg_position(self, populated, prompt = None):
-                # amount = populated ? 'no' : 'a'...
+                '''
+                Wrapper for get_valid_peg_position, but knows about populated
+                and unpopulated positions.
+                '''
                 amount = populated and 'no' or 'a'
                 try:
                         print >> self.output, prompt,
@@ -77,12 +89,22 @@ class Game(object):
                         print >> self.output, e
 
         def get_populated_peg_position(self, default_prompt = 'Please select a peg to move (row, column): '):
+                '''
+                Wrapper for get_peg_position. Sets appropriate prompt.
+                '''
                 return self.get_peg_position(populated = True, prompt = default_prompt)
                         
         def get_unpopulated_peg_position(self):
+                '''
+                Wrapper for get_peg_position. Sets appropriate prompt.
+                '''
                 return self.get_peg_position(populated = False, prompt = 'Please select a hole to move to (row, column): ')
 
         def make_move(self):
+                '''
+                Loops until valid input is supplied and then makes the move.
+                Wraps do_first_move and do_main_move.
+                '''
                 target_count = self.board.peg_count() - 1
                 while self.board.peg_count() is not target_count:
                         try:
@@ -98,19 +120,31 @@ class Game(object):
                 print >> self.output, self.board
                         
         def do_first_move(self):
+                '''
+                Code specific to clearing the first hole.
+                '''
                 row, column = self.get_populated_peg_position(default_prompt = 'Please select a peg to remove(row, column): ')
                 self.board.remove_peg(row, column)
 
         def do_main_move(self):
+                '''
+                Code specific to moving a peg into a vacant hole.
+                '''
                 source_row, source_column = self.get_populated_peg_position()
                 target_row, target_column = self.get_unpopulated_peg_position()
                 self.board.move(source_row, source_column, target_row, target_column)
 
-        def over(self):
+        def is_over(self):
+                ''' 
+                Returns True only if the game is over.
+                '''
                 return self.board.game_over()
 
         def play(self):
-                while not self.over():
+                '''
+                Makes as many moves as is necessary to complete the game.
+                '''
+                while not self.is_over():
                         self.make_move()
 
                 print >> self.output, 'Game over.'

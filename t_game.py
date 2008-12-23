@@ -183,7 +183,7 @@ class TestGame(unittest.TestCase):
 
         def test_game_over(self):
                 self.game.board.pegs = [(0, 0)]
-                self.assertTrue(self.game.over())
+                self.assertTrue(self.game.is_over())
 
         def test_game_over_is_reported_as_such(self):
                 self.game.board.pegs = [(0, 0)]
