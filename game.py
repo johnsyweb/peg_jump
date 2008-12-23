@@ -110,6 +110,9 @@ class Game(object):
                 return self.board.game_over()
 
         def play(self):
+                while not self.over():
+                        self.make_move()
+
                 print >> self.output, 'Game over.'
                 if self.board.won() is not True:
                         print >> self.output, 'You have lost.'
@@ -123,8 +126,7 @@ def main(print_board = True):
         '''
         game = Game()
         game.welcome()
-        game.make_move()
-        game.make_move()
+        game.play()
 
 if __name__ == '__main__':
         main()

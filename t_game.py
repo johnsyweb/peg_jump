@@ -1,27 +1,30 @@
 #!/usr/bin/env python
-################################################################################
-# 
-# Copyright (c) 2008 Pete Johns <paj@johnsy.com>
-# 
-# This program is free software; you can redistribute it and/or modify it under
-# the terms of the GNU General Public License as published by the Free Software
-# Foundation; either version 2, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
-# details.
-# 
-# You should have received a copy of the GNU General Public License along with
-# this program (see the file COPYING); if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA
-# 
-################################################################################
+'''
+ 
+ Copyright (c) 2008 Pete Johns <paj@johnsy.com>
+ 
+ This program is free software; you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the Free Software
+ Foundation; either version 2, or (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ details.
+ 
+ You should have received a copy of the GNU General Public License along with
+ this program (see the file COPYING); if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA
+ 
+'''
 
 import game    # unit to test
 import unittest # unit test framework   
 
 class FakeStdOut:
+        '''
+        Fake class for testing output.
+        '''
         def __init__(self):
                 self.reset()
 
@@ -32,6 +35,9 @@ class FakeStdOut:
                 self.buffer = ''
 
 class FakeStdIn:
+        '''
+        Fake class for injecting input.
+        '''
         def __init__(self):
                 self.lines = []
 
@@ -39,6 +45,9 @@ class FakeStdIn:
                 return self.lines.pop(0)
 
 class TestGame(unittest.TestCase):
+        '''
+        Unit tests for the Game class. All TDD.
+        '''
 
         def setUp(self):
                 self.fake_std_out = FakeStdOut()
@@ -189,6 +198,38 @@ class TestGame(unittest.TestCase):
                 self.game.board.pegs = [(0, 0)]
                 self.game.play()
                 self.assertTrue('You have won!' in self.fake_std_out.buffer) 
+
+        def test_sample_full_game(self):
+                self.fake_std_in.lines.append('0, 0\n')
+                self.fake_std_in.lines.append('2, 0\n')
+                self.fake_std_in.lines.append('0, 0\n')
+                self.fake_std_in.lines.append('2, 2\n')
+                self.fake_std_in.lines.append('2, 0\n')
+                self.fake_std_in.lines.append('3, 0\n')
+                self.fake_std_in.lines.append('1, 0\n')
+                self.fake_std_in.lines.append('4, 1\n')
+                self.fake_std_in.lines.append('2, 1\n')
+                self.fake_std_in.lines.append('4, 4\n')
+                self.fake_std_in.lines.append('2, 2\n')
+                self.fake_std_in.lines.append('4, 3\n')
+                self.fake_std_in.lines.append('4, 1\n')
+                self.fake_std_in.lines.append('4, 0\n')
+                self.fake_std_in.lines.append('4, 2\n')
+                self.fake_std_in.lines.append('0, 0\n')
+                self.fake_std_in.lines.append('2, 0\n')
+                self.fake_std_in.lines.append('1, 1\n')
+                self.fake_std_in.lines.append('3, 3\n')
+                self.fake_std_in.lines.append('4, 2\n')
+                self.fake_std_in.lines.append('2, 2\n')
+                self.fake_std_in.lines.append('3, 3\n')
+                self.fake_std_in.lines.append('1, 1\n')
+                self.fake_std_in.lines.append('2, 0\n')
+                self.fake_std_in.lines.append('2, 2\n')
+                self.fake_std_in.lines.append('1, 1\n')
+                self.fake_std_in.lines.append('3, 3\n')
+                self.game.play()
+                self.assertTrue('You have won!' in self.fake_std_out.buffer) 
+
 
 if __name__ == '__main__':
         unittest.main()
