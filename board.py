@@ -60,6 +60,13 @@ class Board:
                 '''
                 return len(self.pegs)
 
+        def is_full(self):
+                '''
+                Returns true if and only if there is a peg in each hole. That
+                is, at the beginning of the game.
+                '''
+                return self.size() == self.peg_count()
+
         def remove_peg(self, row, column):
                 '''
                 Removes the peg at the specified location. Can only be called at
@@ -149,9 +156,10 @@ class Board:
                 return valid_moves
 
         def game_over(self):
-                ''' The game is over when no more moves can be executed. '''
-                return self.get_valid_moves() == []
-
+                ''' 
+                The game is over when no more moves can be executed. 
+                '''
+                return (not self.is_full()) and (self.get_valid_moves() == [])
         def won(self):
                 ''' The object of the game is to get down to one peg. '''
                 return self.peg_count() == 1

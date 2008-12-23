@@ -172,6 +172,14 @@ class TestBoard(unittest.TestCase):
                 self.board.pegs.append((2, 0))
                 self.assert_(self.board.game_over())
 
+        def test_full_board(self):
+                self.board.reset()
+                self.assertTrue(self.board.is_full())
+
+        def test_full_board_is_not_over(self):
+                self.board.reset()
+                self.assertFalse(self.board.game_over())
+
         def test_print_empty_board(self):
                 # Escaped backslashes.
                 self.assertEquals(self.board.__str__(), 
