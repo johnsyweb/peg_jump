@@ -2,20 +2,20 @@
 """
 
  Copyright (c) 2008 Pete Johns <paj@johnsy.com>
- 
+
  This program is free software; you can redistribute it and/or modify it under
  the terms of the GNU General Public License as published by the Free Software
  Foundation; either version 2, or (at your option) any later version.
- 
+
  This program is distributed in the hope that it will be useful, but WITHOUT
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  details.
- 
+
  You should have received a copy of the GNU General Public License along with
  this program (see the file COPYING); if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA
- 
+
 """
 
 from board import Board
@@ -48,7 +48,7 @@ class Game(object):
                 '''
 
                 print >> self.output, center('''
-                Welcome to Peg Jump. 
+                Welcome to Peg Jump.
                 ====================
                 ''', self.width)
                 print >> self.output, self.board
@@ -93,7 +93,7 @@ class Game(object):
                 Wrapper for get_peg_position. Sets appropriate prompt.
                 '''
                 return self.get_peg_position(populated = True, prompt = default_prompt)
-                        
+
         def get_unpopulated_peg_position(self):
                 '''
                 Wrapper for get_peg_position. Sets appropriate prompt.
@@ -118,7 +118,7 @@ class Game(object):
                         except TypeError:
                                 print >> self.output, 'Please try again...'
                 print >> self.output, self.board
-                        
+
         def do_first_move(self):
                 '''
                 Code specific to clearing the first hole.
@@ -135,7 +135,7 @@ class Game(object):
                 self.board.move(source_row, source_column, target_row, target_column)
 
         def is_over(self):
-                ''' 
+                '''
                 Returns True only if the game is over.
                 '''
                 return self.board.game_over()
