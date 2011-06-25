@@ -1,25 +1,23 @@
 #!/usr/bin/env python
 '''
- 
- Copyright (c) 2008 Pete Johns <paj@johnsy.com>
- 
- This program is free software; you can redistribute it and/or modify it under
- the terms of the GNU General Public License as published by the Free Software
- Foundation; either version 2, or (at your option) any later version.
- 
- This program is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- details.
- 
- You should have received a copy of the GNU General Public License along with
- this program (see the file COPYING); if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA
- 
+Copyright (c) 2008 Pete Johns <paj@johnsy.com>
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along with
+this program (see the file COPYING); if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA
 '''
 
-import game    # unit to test
-import unittest # unit test framework   
+import game
+import unittest
 
 class FakeStdOut:
         '''
@@ -85,7 +83,7 @@ class TestGame(unittest.TestCase):
 
         def test_prompt_at_game_start(self):
                 self.start_game_with_top_peg_removed()
-                self.assertTrue('Please select a peg to remove(row, column):' in 
+                self.assertTrue('Please select a peg to remove(row, column):' in
                                 self.fake_std_out.buffer, 'Unexpected output: ' + self.fake_std_out.buffer)
 
         def test_get_valid_peg_position(self):
@@ -188,22 +186,22 @@ class TestGame(unittest.TestCase):
         def test_game_over_is_reported_as_such(self):
                 self.game.board.pegs = [(0, 0)]
                 self.game.play()
-                self.assertTrue('Game over.' in self.fake_std_out.buffer) 
+                self.assertTrue('Game over.' in self.fake_std_out.buffer)
 
         def test_loss_is_reported_as_such(self):
                 self.game.board.pegs = [(0, 0), (4, 4)]
                 self.game.play()
-                self.assertTrue('You have lost.' in self.fake_std_out.buffer) 
+                self.assertTrue('You have lost.' in self.fake_std_out.buffer)
 
         def test_win_is_reported_as_such(self):
                 self.game.board.pegs = [(0, 0)]
                 self.game.play()
-                self.assertTrue('You have won!' in self.fake_std_out.buffer) 
+                self.assertTrue('You have won!' in self.fake_std_out.buffer)
 
         def test_sample_full_game(self):
                 self.fake_std_in.prime([('0, 0\n'), ('2, 0\n'), ('0, 0\n'), ('2, 2\n'), ('2, 0\n'), ('3, 0\n'), ('1, 0\n'), ('4, 1\n'), ('2, 1\n'), ('4, 4\n'), ('2, 2\n'), ('4, 3\n'), ('4, 1\n'), ('4, 0\n'), ('4, 2\n'), ('0, 0\n'), ('2, 0\n'), ('1, 1\n'), ('3, 3\n'), ('4, 2\n'), ('2, 2\n'), ('3, 3\n'), ('1, 1\n'), ('2, 0\n'), ('2, 2\n'), ('1, 1\n'), ('3, 3\n')])
                 self.game.play()
-                self.assertTrue('You have won!' in self.fake_std_out.buffer) 
+                self.assertTrue('You have won!' in self.fake_std_out.buffer)
 
 
 if __name__ == '__main__':
