@@ -269,8 +269,8 @@ class TestBoard(unittest.TestCase):
         This function takes far too long for a unit test, but is quite fun to
         watch.
         '''
-        for row in range(5):
-            for column in range(row):
+        for row in xrange(5):
+            for column in xrange(row):
                 self.start_game_with_peg_removed(row, column)
                 self.assertEquals(len(self.board.auto_play_move(True)), 14)
                 self.assert_(self.board.won())

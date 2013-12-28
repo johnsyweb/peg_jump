@@ -38,9 +38,7 @@ class Board:
         returned to their homes.
         '''
         self.__clear_lists()
-        for row in range(self.rows):
-            for column in range(row + 1):
-                self.pegs.append((row, column))
+        self.pegs = [(r, c) for r in xrange(self.rows) for c in xrange(r + 1)]
 
     def size(self):
         '''
@@ -79,7 +77,7 @@ class Board:
         '''
         Validation for a target location.
         '''
-        return row in range(self.rows) and column in range(row + 1)
+        return 0 <= row < self.rows and 0 <= column <= row
 
     def is_vacant(self, row, column):
         '''
@@ -188,10 +186,10 @@ class Board:
         retstring = '\n'
         retstring += spaces * ' ' + '/\\\n'
 
-        for row in range(self.rows):
+        for row in xrange(self.rows):
             spaces -= 1
             retstring += spaces * ' ' + '/'
-            for column in range(row + 1):
+            for column in xrange(row + 1):
                 if self.is_vacant(row, column):
                     retstring += ' . '
                 else:
