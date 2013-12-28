@@ -30,21 +30,14 @@ class Board:
         Sets up the instance with an empty board of 'number_of_rows' rows
         '''
         self.rows = number_of_rows
-        self.clear_lists()
-
-    def clear_lists(self):
-        '''
-        Should only be called from within the class.
-        '''
-        self.pegs = []
-        self.move_list = []
+        self.__clear_lists()
 
     def reset(self):
         '''
         Makes the board new again. All moves are cleared and all pegs
         returned to their homes.
         '''
-        self.clear_lists()
+        self.__clear_lists()
         for row in range(self.rows):
             for column in range(row + 1):
                 self.pegs.append((row, column))
@@ -206,6 +199,10 @@ class Board:
             retstring += '\\\n'
         retstring += '+' + (self.rows * 3 + 2) * '-' + '+\n'
         return retstring
+
+    def __clear_lists(self):
+        self.pegs = []
+        self.move_list = []
 
 
 def main(print_board=True):
