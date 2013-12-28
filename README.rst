@@ -1,13 +1,52 @@
-`Peg Jump` |Build Status|
-=========================
+Peg Jump |Build Status|
+=======================
 
 Something I found hanging around on a hard disk. I think I wrote it on a #1
-tram  when I was starting out in Python and automated unit testing.
+tram when I was starting out in Python and automated unit testing. Five years
+after It was written, I've cleaned-up the code a bit and published it for your
+amusement.
+
+It's the common triangular variant (with five pegs on a side) of
+`Peg Solitaire <http://en.wikipedia.org/wiki/Peg_solitaire>`__
 
 Usage
 -----
 
-There is no front-end to this library. Feel free to write one ☺
+Get started like so::
+
+    % ./game.py
+
+            Welcome to Peg Jump.
+            ====================
+
+
+          /\
+         / x \
+        / x  x \
+       / x  x  x \
+      / x  x  x  x \
+     / x  x  x  x  x \
+    +-----------------+
+
+    Please select a peg to remove(row, column): 0, 0
+          /\
+         / . \
+        / x  x \
+       / x  x  x \
+      / x  x  x  x \
+     / x  x  x  x  x \
+    +-----------------+
+
+    Please select a peg to move (row, column): 2, 0
+    Please select a hole to move to (row, column): 0, 0
+          /\
+         / x \
+        / .  x \
+       / .  x  x \
+      / x  x  x  x \
+     / x  x  x  x  x \
+    +-----------------+
+
 
 Contributing
 ------------
