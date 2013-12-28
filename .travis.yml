@@ -1,0 +1,7 @@
+language: python
+python:
+  - "2.7"
+  - "pypy"
+install: 
+  - pip install coverage
+script: nosetests --with-coverage ./t_board.py ./t_game.py
