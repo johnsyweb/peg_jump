@@ -122,7 +122,7 @@ class Game(object):
                     self.do_first_move()
                 else:
                     self.do_main_move()
-            except QuitException, q:
+            except QuitException:
                 print >> self.output, 'Goodbye.'
                 return
             except TypeError:
