@@ -96,7 +96,8 @@ class TestGame(unittest.TestCase):
 
     def test_get_valid_peg_position(self):
         self.fake_std_in.add('0, 0')
-        row, column = self.game.get_valid_peg_position()
+        position = self.game.get_valid_peg_position()
+        self.assertEquals((0, 0), position)
 
     def test_can_make_move(self):
         self.start_game_with_top_peg_removed()
