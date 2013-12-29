@@ -1,5 +1,5 @@
-Peg Jump |Build Status|
-=======================
+Peg Jump |Build Status| |Code Health|
+=====================================
 
 Something I found hanging around on a hard disk. I think I wrote it on a #1
 tram when I was starting out in Python and automated unit testing. Five years
@@ -71,3 +71,5 @@ have something to say, you can contact
 
 .. |Build Status| image:: https://travis-ci.org/johnsyweb/peg_jump.png
    :target: https://travis-ci.org/johnsyweb/peg_jump
+.. |Code Health| image:: https://landscape.io/github/johnsyweb/peg_jump/master/landscape.png
+   :target: https://landscape.io/github/johnsyweb/peg_jump/master

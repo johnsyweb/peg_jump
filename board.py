@@ -19,7 +19,7 @@
 ###############################################################################
 
 
-class Board:
+class Board(object):
     '''
     This is the back-end to peg-jump. It is a board containing pegs and a
     list of moves.

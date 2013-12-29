@@ -20,7 +20,7 @@ import game
 import unittest
 
 
-class FakeStdOut:
+class FakeStdOut(object):
     '''
     Fake class for testing output.
     '''
@@ -34,7 +34,7 @@ class FakeStdOut:
         self.buffer = ''
 
 
-class FakeStdIn:
+class FakeStdIn(object):
     '''
     Fake class for injecting input.
     '''
@@ -60,7 +60,7 @@ class TestGame(unittest.TestCase):
     def setUp(self):
         self.fake_std_out = FakeStdOut()
         self.fake_std_in = FakeStdIn()
-        self.game = game.Game(input=self.fake_std_in, output=self.fake_std_out)
+        self.game = game.Game(stdin=self.fake_std_in, stdout=self.fake_std_out)
 
     def start_game_with_top_peg_removed(self):
         '''
@@ -96,7 +96,8 @@ class TestGame(unittest.TestCase):
 
     def test_get_valid_peg_position(self):
         self.fake_std_in.add('0, 0')
-        row, column = self.game.get_valid_peg_position()
+        position = self.game.get_valid_peg_position()
+        self.assertEquals((0, 0), position)
 
     def test_can_make_move(self):
         self.start_game_with_top_peg_removed()
