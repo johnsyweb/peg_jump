@@ -165,7 +165,7 @@ class Game(object):
             print >> self.output, 'You have won!'
 
 
-def main(print_board=True):
+def main():
     '''
     Play the game,
     (Play the game),
