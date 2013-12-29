@@ -20,7 +20,7 @@ import game
 import unittest
 
 
-class FakeStdOut:
+class FakeStdOut(object):
     '''
     Fake class for testing output.
     '''
@@ -34,7 +34,7 @@ class FakeStdOut:
         self.buffer = ''
 
 
-class FakeStdIn:
+class FakeStdIn(object):
     '''
     Fake class for injecting input.
     '''
