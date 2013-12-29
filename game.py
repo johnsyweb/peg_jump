@@ -37,9 +37,9 @@ class Game(object):
     peg-jump game.
     '''
 
-    def __init__(self, input=sys.stdin, output=sys.stdout):
-        self.output = output
-        self.input = input
+    def __init__(self, stdin=sys.stdin, stdout=sys.stdout):
+        self.stdout = stdout
+        self.stdin = stdin
         self.board = Board(5)
         self.board.reset()
         self.width = 80
@@ -50,11 +50,11 @@ class Game(object):
         Just a welcome message. Nothing special.
         '''
 
-        print >> self.output, center('''
+        print >> self.stdout, center('''
         Welcome to Peg Jump.
         ====================
         ''', self.width)
-        print >> self.output, self.board
+        print >> self.stdout, self.board
 
     def get_valid_peg_position(self):
         '''
@@ -62,7 +62,7 @@ class Game(object):
         doesn't understand or a QuitException if 'quit' is entered.
         '''
 
-        line = self.input.readline()
+        line = self.stdin.readline()
         if 'quit' in line:
             raise QuitException
         try:
@@ -84,7 +84,7 @@ class Game(object):
         '''
         amount = populated and 'no' or 'a'
         try:
-            print >> self.output, prompt,
+            print >> self.stdout, prompt,
             row, column = self.get_valid_peg_position()
             if self.board.is_vacant(row, column) == populated:
                 raise Exception('Sorry, there is %s peg at "%d, %d".' %
@@ -92,7 +92,7 @@ class Game(object):
             else:
                 return row, column
         except InputException, e:
-            print >> self.output, e
+            print >> self.stdout, e
 
     DEFAULT_PROMPT = 'Please select a peg to move (row, column): '
 
@@ -123,11 +123,11 @@ class Game(object):
                 else:
                     self.do_main_move()
             except QuitException:
-                print >> self.output, 'Goodbye.'
+                print >> self.stdout, 'Goodbye.'
                 return
             except TypeError:
-                print >> self.output, 'Please try again...'
-            print >> self.output, self.board
+                print >> self.stdout, 'Please try again...'
+            print >> self.stdout, self.board
 
     def do_first_move(self):
         '''
@@ -158,11 +158,11 @@ class Game(object):
         while not self.is_over():
             self.make_move()
 
-        print >> self.output, 'Game over.'
+        print >> self.stdout, 'Game over.'
         if self.board.won() is not True:
-            print >> self.output, 'You have lost.'
+            print >> self.stdout, 'You have lost.'
         else:
-            print >> self.output, 'You have won!'
+            print >> self.stdout, 'You have won!'
 
 
 def main():

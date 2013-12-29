@@ -60,7 +60,7 @@ class TestGame(unittest.TestCase):
     def setUp(self):
         self.fake_std_out = FakeStdOut()
         self.fake_std_in = FakeStdIn()
-        self.game = game.Game(input=self.fake_std_in, output=self.fake_std_out)
+        self.game = game.Game(stdin=self.fake_std_in, stdout=self.fake_std_out)
 
     def start_game_with_top_peg_removed(self):
         '''
