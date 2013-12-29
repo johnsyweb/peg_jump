@@ -28,6 +28,7 @@ class FakeStdOut(object):
         self.reset()
 
     def write(self, text):
+        '''Add text to stdout'''
         self.buffer += text
 
     def reset(self):
@@ -74,25 +75,23 @@ class TestGame(unittest.TestCase):
 
     def test_welcome_message_emitted(self):
         self.game.welcome()
-        self.assertTrue('Welcome to Peg Jump.' in self.fake_std_out.buffer)
+        self.assertIn('Welcome to Peg Jump.', self.fake_std_out.buffer)
 
     def test_welcome_displays_board(self):
         self.game.welcome()
-        self.assertTrue('''
-      /\\
-     / x \\
-    / x  x \\
-   / x  x  x \\
-  / x  x  x  x \\
- / x  x  x  x  x \\
-+-----------------+''' in self.fake_std_out.buffer,
-                        'Unexpected output: ' + self.fake_std_out.buffer)
+        self.assertIn(r'''
+      /\
+     / x \
+    / x  x \
+   / x  x  x \
+  / x  x  x  x \
+ / x  x  x  x  x \
++-----------------+''', self.fake_std_out.buffer)
 
     def test_prompt_at_game_start(self):
         self.start_game_with_top_peg_removed()
-        self.assertTrue('Please select a peg to remove(row, column):' in
-                        self.fake_std_out.buffer,
-                        'Unexpected output: ' + self.fake_std_out.buffer)
+        self.assertIn('Please select a peg to remove(row, column):',
+                      self.fake_std_out.buffer)
 
     def test_get_valid_peg_position(self):
         self.fake_std_in.add('0, 0')
@@ -119,15 +118,14 @@ class TestGame(unittest.TestCase):
 
     def test_peg_removal_draws_board(self):
         self.start_game_with_top_peg_removed()
-        self.assertTrue('''
-      /\\
-     / . \\
-    / x  x \\
-   / x  x  x \\
-  / x  x  x  x \\
- / x  x  x  x  x \\
-+-----------------+''' in self.fake_std_out.buffer,
-                        'Unexpected output: ' + self.fake_std_out.buffer)
+        self.assertIn(r'''
+      /\
+     / . \
+    / x  x \
+   / x  x  x \
+  / x  x  x  x \
+ / x  x  x  x  x \
++-----------------+''', self.fake_std_out.buffer)
 
     def test_get_source_peg(self):
         self.start_game_with_top_peg_removed()
@@ -151,33 +149,28 @@ class TestGame(unittest.TestCase):
 
     def test_make_move_asks_for_source(self):
         self.make_move_helper()
-        self.assertTrue(
-            'Please select a peg to move (row, column):'
-            in self.fake_std_out.buffer,
-            'Unexpected output: ' + self.fake_std_out.buffer)
+        self.assertIn('Please select a peg to move (row, column):',
+                      self.fake_std_out.buffer)
 
     def test_make_move_asks_for_target(self):
         self.make_move_helper()
-        self.assertTrue(
-            'Please select a hole to move to (row, column):'
-            in self.fake_std_out.buffer,
-            'Unexpected output: ' + self.fake_std_out.buffer)
+        self.assertIn('Please select a hole to move to (row, column):',
+                      self.fake_std_out.buffer)
 
     def test_make_move_draws_board(self):
         self.make_move_helper()
-        self.assertTrue('''
-      /\\
-     / x \\
-    / x  . \\
-   / x  x  . \\
-  / x  x  x  x \\
- / x  x  x  x  x \\
-+-----------------+''' in self.fake_std_out.buffer,
-                        'Unexpected output: ' + self.fake_std_out.buffer)
+        self.assertIn(r'''
+      /\
+     / x \
+    / x  . \
+   / x  x  . \
+  / x  x  x  x \
+ / x  x  x  x  x \
++-----------------+''', self.fake_std_out.buffer)
 
     def test_make_move_populates_move_list(self):
         self.make_move_helper()
-        self.assertEquals(self.game.board.move_list[-1], (2, 2, 0, 0))
+        self.assertTupleEqual(self.game.board.move_list[-1], (2, 2, 0, 0))
 
     def test_quit_command_exits_game_on_first_go(self):
         self.fake_std_in.add('quit')
@@ -205,17 +198,17 @@ class TestGame(unittest.TestCase):
     def test_game_over_is_reported_as_such(self):
         self.game.board.pegs = [(0, 0)]
         self.game.play()
-        self.assertTrue('Game over.' in self.fake_std_out.buffer)
+        self.assertIn('Game over.', self.fake_std_out.buffer)
 
     def test_loss_is_reported_as_such(self):
         self.game.board.pegs = [(0, 0), (4, 4)]
         self.game.play()
-        self.assertTrue('You have lost.' in self.fake_std_out.buffer)
+        self.assertIn('You have lost.', self.fake_std_out.buffer)
 
     def test_win_is_reported_as_such(self):
         self.game.board.pegs = [(0, 0)]
         self.game.play()
-        self.assertTrue('You have won!' in self.fake_std_out.buffer)
+        self.assertIn('You have won!', self.fake_std_out.buffer)
 
     def test_sample_full_game(self):
         self.fake_std_in.prime((
@@ -235,7 +228,7 @@ class TestGame(unittest.TestCase):
             '1, 1', '3, 3',
         ))
         self.game.play()
-        self.assertTrue('You have won!' in self.fake_std_out.buffer)
+        self.assertIn('You have won!', self.fake_std_out.buffer)
 
 
 if __name__ == '__main__':
