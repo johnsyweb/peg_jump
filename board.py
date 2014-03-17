@@ -1,22 +1,7 @@
 #!/usr/bin/env python
-###############################################################################
-#
-# Copyright (c) 2008 Pete Johns <paj@johnsy.com>
-#
-# This program is free software; you can redistribute it and/or modify it under
-# the terms of the GNU General Public License as published by the Free Software
-# Foundation; either version 2, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
-# details.
-#
-# You should have received a copy of the GNU General Public License along with
-# this program (see the file COPYING); if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA
-#
-###############################################################################
+'''
+Contains the Board class
+'''
 
 
 class Board(object):
@@ -86,30 +71,11 @@ class Board(object):
         return (self.is_within_bounds(row, column) and
                 (row, column) not in self.pegs)
 
-    def is_correct_distance(self, source_row, source_column,
-                            target_row, target_column):
-        '''
-        Validation for a target location.
-        '''
-        valid_jumps = [(+2,  0), (+2, +2),
-                       (0, -2), (0, +2),
-                       (-2, -2), (-2,  0)]
-
-        distance = target_row - source_row, target_column - source_column
-        return distance in valid_jumps
-
-    def middle_peg(self, source_row, source_column, target_row, target_column):
-        '''
-        Calculates the location of a peg between a source and target hole.
-        '''
-        return (
-            (source_row + target_row) / 2, (source_column + target_column) / 2)
-
     def has_middle_peg(self, *args):
         '''
         Validation for a target location.
         '''
-        return self.middle_peg(*args) in self.pegs
+        return middle_peg(*args) in self.pegs
 
     def is_valid_move(self, source_row, source_column,
                       target_row, target_column):
@@ -121,8 +87,8 @@ class Board(object):
         '''
         return ((source_row, source_column) in self.pegs
                 and self.is_vacant(target_row, target_column)
-                and self.is_correct_distance(source_row, source_column,
-                                             target_row, target_column)
+                and is_correct_distance(source_row, source_column,
+                                        target_row, target_column)
                 and self.has_middle_peg(source_row, source_column,
                                         target_row, target_column)
                 )
@@ -133,8 +99,8 @@ class Board(object):
                               target_row, target_column):
             self.pegs.append((target_row, target_column))
             self.pegs.remove((source_row, source_column))
-            self.pegs.remove(self.middle_peg(source_row, source_column,
-                                             target_row, target_column))
+            self.pegs.remove(middle_peg(source_row, source_column,
+                                        target_row, target_column))
             self.move_list.append((source_row, source_column,
                                    target_row, target_column))
 
@@ -144,7 +110,7 @@ class Board(object):
         source_row, source_column, target_row, target_column = last
         self.pegs.remove((target_row, target_column))
         self.pegs.append((source_row, source_column))
-        self.pegs.append(self.middle_peg(*last))
+        self.pegs.append(middle_peg(*last))
 
     def get_valid_moves(self):
         ''' Returns a list of all moves that can be made '''
@@ -201,6 +167,23 @@ class Board(object):
     def __clear_lists(self):
         self.pegs = []
         self.move_list = []
+
+
+def is_correct_distance(source_row, source_column, target_row, target_column):
+    '''
+    Validation for a target location.
+    '''
+    valid_jumps = ((+2, 0), (+2, +2), (0, -2), (0, +2), (-2, -2), (-2, 0))
+
+    distance = target_row - source_row, target_column - source_column
+    return distance in valid_jumps
+
+
+def middle_peg(source_row, source_column, target_row, target_column):
+    '''
+    Calculates the location of a peg between a source and target hole.
+    '''
+    return (source_row + target_row) / 2, (source_column + target_column) / 2
 
 
 def main(print_board=True):

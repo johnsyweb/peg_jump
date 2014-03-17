@@ -19,15 +19,16 @@
 """
 
 from board import Board
-from string import center
 import sys
 
 
 class InputException(Exception):
+    ''' Could not understand the input'''
     pass
 
 
 class QuitException(Exception):
+    '''Cease execution'''
     pass
 
 
@@ -49,11 +50,8 @@ class Game(object):
         '''
         Just a welcome message. Nothing special.
         '''
-
-        print >> self.stdout, center('''
-        Welcome to Peg Jump.
-        ====================
-        ''', self.width)
+        print >> self.stdout, 'Welcome to Peg Jump.'.center(self.width)
+        print >> self.stdout, '===================='.center(self.width)
         print >> self.stdout, self.board
 
     def get_valid_peg_position(self):
@@ -91,8 +89,8 @@ class Game(object):
                                 (amount, row, column))
             else:
                 return row, column
-        except InputException, e:
-            print >> self.stdout, e
+        except InputException, ex:
+            print >> self.stdout, ex
 
     DEFAULT_PROMPT = 'Please select a peg to move (row, column): '
 
